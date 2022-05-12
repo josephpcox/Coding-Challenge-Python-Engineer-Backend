@@ -83,7 +83,7 @@ jobs:
     # Push the Docker image to Google Artifact Registry
     - name: Publish
       run: |-
-        gcloud auth configure-docker pkg.dev
+        gcloud auth configure-docker $GAR_LOCATION-docker.pkg.dev
         docker push "$GAR_LOCATION-docker.pkg.dev/$PROJECT_ID/$REPOSITORY/$IMAGE:$GITHUB_SHA"
     # us-east1-docker.pkg.dev/codechallenge-349907/char
     # Set up kustomize
