@@ -1,5 +1,8 @@
-FROM python:3.7.4
+FROM python:3.8
 MAINTAINER Code-Challenge-Developer
-COPY *.py ./
-WORKDIR /usr/local/bin
-cmd ["hello.py"]
+WORKDIR /app
+COPY . /app
+RUN pip install pipenv
+RUN pipenv install --deploy --ignore-pipfile
+EXPOSE 5000
+CMD ["pipenv", "run", "python","wsgi.py"]
