@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
       - name: gke-code-challenge
-        image: us-east1-docker.pkg.dev/codechallenge-349907/char/code-challenge-image:$GITHUB_SHA
+        image: us-east1-docker.pkg.dev/codechallenge-349907/char/code-challenge-image:latest
         ports:
         - containerPort: 5000
         resources:
