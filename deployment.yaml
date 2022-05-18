@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: code-challenge-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: code-challenge-api
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  minReadySeconds: 5
+  template:
+    metadata:
+      labels:
+        app: code-challenge-api
+    spec:
+      containers:
+      - name: code-challenge-api
+        image: us-east1-docker.pkg.dev/codechallenge-349907/char/code-challenge-image:latest
+        ports:
+        - containerPort: 5000
+        resources:
+          requests:
+            cpu: 100m
+          limits:
+            cpu: 100m
