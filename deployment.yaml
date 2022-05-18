@@ -1,12 +1,12 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: code-challenge-api
+  name: gke-code-challenge
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: code-challenge-api
+      app: gke-code-challenge
   strategy:
     rollingUpdate:
       maxSurge: 1
@@ -15,10 +15,10 @@ spec:
   template:
     metadata:
       labels:
-        app: code-challenge-api
+        app: gke-code-challenge
     spec:
       containers:
-      - name: code-challenge-api
+      - name: gke-code-challenge
         image: us-east1-docker.pkg.dev/codechallenge-349907/char/code-challenge-image:latest
         ports:
         - containerPort: 5000
