@@ -27,6 +27,6 @@ spec:
             cpu: 100m
           limits:
             cpu: 100m
-       env:
-        - name: uri
-          value: "postgresql://postgres:+n%kHz|nYnVPLb%5@34.73.6.172/postgres"
+        env:
+          - name: uri
+            value: "postgresql://postgres:+n%kHz|nYnVPLb%5@34.73.6.172/postgres"
