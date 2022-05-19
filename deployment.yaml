@@ -20,13 +20,6 @@ spec:
       containers:
       - name: gke-code-challenge
         image: us-east1-docker.pkg.dev/codechallenge-349907/char/code-challenge-image:latest
-        env:
-        - name: URI
-          valueFrom:
-            secreteKeyRef:
-              name: dbconnection
-              key: uri
-              optional: false
         ports:
         - containerPort: 5000
         resources:
