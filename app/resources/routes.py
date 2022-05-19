@@ -1,5 +1,4 @@
-from cgitb import reset
-from distutils.log import error
+
 from flask import Flask
 from app.authentication import auth
 from flask_restplus import Resource, Api
@@ -17,6 +16,7 @@ class GetAllNetflixTitles(Resource):
             return result
         except Exception as e:
             return {"msg": str(e)} 
+
 @api.route('/api/netflix_titles/get_by_title_name/<string:title_name>')
 class GetNetflixTitles(Resource):
     def get(self, title_name):
@@ -67,7 +67,7 @@ class GetNetflixTitlesByDateAdded(Resource):
             return result
         except Exception as e:
             return {"msg":str(e)}
-            
+
 @api.route('/api/netflix_titles/get_by_release_year/<string:year>')
 class GetNetflixTitlesByReleaseYear(Resource):
     def get(self, year):
@@ -110,5 +110,63 @@ class GetNetflixTitlesByDescription(Resource):
         try:
             result = NetflixTitle.get_by_description(description=description)
             return result
+        except Exception as e:
+            return {"msg":str(e)}
+
+@api.route('/api/netflix_titles/update_title/')
+class UpdateNetflixTitles(Resource):
+
+    parser = api.parser()
+    parser.add_argument("show_id", type=str, help="show_id is required", required=True)
+    parser.add_argument("type", type=str, help="show_id is required", required=True)
+    parser.add_argument("title", type=str, help="type is required", required=True)
+    parser.add_argument("director", type=str, help="type is required", required=True)
+    parser.add_argument("country", type=str, help="type is required", required=True)
+    parser.add_argument("date_added", type=str, help="type is required", required=True)
+    parser.add_argument("release_year", type=str, help="type is required", required=True)
+    parser.add_argument("rating", type=str, help="type is required", required=True)
+    parser.add_argument("duration", type=str, help="type is required", required=True)
+    parser.add_argument("listed_in", type=str, help="type is required", required=True)
+    parser.add_argument("description", type=str, help="type is required", required=True)
+
+    @api.expect(parser)
+    def put(self):
+        try:
+            request_data=self.parser.parse_args(strict=True)
+            NetflixTitle.update_title(request_data)
+            return 200
+        except Exception as e:
+            return {"msg":str(e)}
+
+@api.route('/api/netflix_titles/create_title/')
+class CreateNetflixTitles(Resource):
+
+    parser = api.parser()
+    parser.add_argument("type", type=str, help="title type", required=False)
+    parser.add_argument("title", type=str, help="title of the title", required=True)
+    parser.add_argument("director", type=str, help="director of the title", required=False)
+    parser.add_argument("country", type=str, help="country of title is hosted", required=False)
+    parser.add_argument("date_added", type=str, help="date the title was added", required=False)
+    parser.add_argument("release_year", type=str, help="release year of the title", required=False)
+    parser.add_argument("rating", type=str, help="rating of the title", required=False)
+    parser.add_argument("duration", type=str, help="duration of the title", required=False)
+    parser.add_argument("listed_in", type=str, help="listed in of the title", required=False)
+    parser.add_argument("description", type=str, help="description of the title", required=False)
+
+    @api.expect(parser)
+    def post(self):
+        try:
+            request_data=self.parser.parse_args(strict=True)
+            NetflixTitle.create_title(request_data)
+            return 200
+        except Exception as e:
+            return {"msg":str(e)}
+
+@api.route('/api/netflix_titles/delete_title/<string:show_id>')
+class DeleteNetflixTitlesByDescription(Resource):
+    def delete(self, show_id):
+        try:
+            NetflixTitle.delete_title(show_id=show_id)
+            return 200
         except Exception as e:
             return {"msg":str(e)}

@@ -76,8 +76,8 @@ class NetflixTitle(db.Model):
         netflix_title.save_title()
     
     @classmethod
-    def delete_title(cls, dict_title):
-        netflix_title = NetflixTitle(**dict_title)
+    def delete_title(cls, show_id):
+        netflix_title = cls.query.filter_by(show_id=show_id)
         netflix_title.delete_title()
 
     @classmethod
