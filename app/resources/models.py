@@ -5,153 +5,183 @@ import json
 
 db = SQLAlchemy()
 
-class Product(db.Model):
-    __tablename__ = 'products'
-    product_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    product_name = db.Column(db.String(50), nullable=False, unique=True)
-    product_cost = db.Column(db.Numeric(12, 2), nullable=False)
-    security_id = db.Column(db.Integer, db.ForeignKey('security.security_id'))
-    vendor_code = db.Column(db.String(15),db.ForeignKey('vendor.vendor_code'))
-    vendor = db.relationship('Vendor')
-    security = db.relationship('Security')
+                      
+class NetflixTitle(db.Model):
+    __tablename__ = 'netflix_titles'
+    show_id = db.Column(db.String(30), primary_key=True)
+    type = db.Column(db.String)
+    title = db.Column(db.String)
+    director = db.Column(db.String)
+    cast = db.Column(db.String)
+    country = db.Column(db.String)
+    date_added = db.Column(db.String)
+    release_year = db.Column(db.String)
+    rating = db.Column(db.String)
+    duration = db.Column(db.String)
+    listed_in = db.Column(db.String)
+    description = db.Column(db.String)
 
-    def __init__(self, product_name, product_cost, vendor_code,security_id):
-        self.vendor_code = vendor_code
-        self.product_name = product_name
-        self.product_cost = product_cost
-        self.security_id = security_id
+    def __init__self(show_id,
+                     type,
+                     title,
+                     director,
+                     cast,
+                     country,
+                     date_added,
+                     release_year,
+                     rating,
+                     duration,
+                     listed_in,
+                     description
+    ):
+        self.show_id = show_id
+        self.type = type
+        self.title = title
+        self.director = director
+        self.cast = cast
+        self.country = country
+        self.date_added = date_added
+        self.release_year = release_year
+        self.rating - rating
+        self.duration = duration
+        self.listed_in = listed_in
+        self.description = description
 
-    def get_dict(self):
-        return {'Vendor Code':self.vendor_code,
-        'Product ID': self.product_id,
-        'Product Name':self.product_name,
-        'Product Cost':str(self.product_cost),
-        'Security ID':self.security_id}
-
-    def save_product(self):
+    def save_title(self):
         db.session.add(self)
         db.session.commit()
 
-    def delete_product(self):
+    def delete_title(self):
         db.session.delete(self)
         db.session.commit()
-
-    @classmethod
-    def create_porduct(cls, dict_product):
-        new_product = Product(**dict_product)
-        new_product.save_product()
-        # return new_product.get_dict()
-
-    @classmethod
-    def get_products(cls):
-        result = []
-        for r in cls.query.all():
-            result.append(r.get_dict()) 
-        return result 
-
-
-class Security(db.Model):
-    __tablename__= 'security'
-    security_id = db.Column(db.Integer,primary_key=True, autoincrement=True)
-    security_level = db.Column(db.Integer, nullable=False)
-    category_code = db.Column(db.String(15),db.ForeignKey('category.category_code'))
-    # category_id = db.Column(db.Integer)
-    category = db.relationship('Category')
     
-    def __init__(self, category_code, security_level):
-        self.security_level = security_level
-        self.category_code = category_code
-    
-    def save_security(self):
-        db.session.add(self)
-        db.session.commit()
-
-    def delete_security(self):
-        db.session.delete(self)
-        db.session.commit()
-
-    def get_dict(self):
-        return {'Security ID': self.security_id, 
-        'Category Code': self.category_code, 
-        'Security Level': str(self.security_level)
+    def get_json(self):
+        return {"show_id": self.show_id,
+        "type": self.type,
+        "title": self.title,
+        "director": self.director,
+        "cast": self.cast,
+        "country": self.country,
+        "date_added": self.date_added,
+        "release_year": self.release_year,
+        "rating": self.rating,
+        "duration": self.duration,
+        "listed_in": self.listed_in,
+        "description": self.description
         }
     
     @classmethod
-    def create_security(cls, dict_security):
-        new_security = Security(**dict_security)
-        new_security.save_security()
+    def create_title(cls, dict_title):
+        netflix_title = NetflixTitle(**dict_title)
+        netflix_title.save_title()
+    
+    @classmethod
+    def delete_title(cls, dict_title):
+        netflix_title = NetflixTitle(**dict_title)
+        netflix_title.delete_title()
 
     @classmethod
-    def get_securities(cls):
+    def update_title(cls, dict_title):
+        result = cls.query.filter_by(show_id = dict_title['show_id'])
+        result[0].type = dict_title['type']
+        result[0].title = dict_title['title']
+        result[0].director = dict_title['director']
+        result[0].cast = dict_title['cast']
+        result[0].country = dict_title['country']
+        result[0].date_added = dict_title['date_added']
+        result[0].release_year = dict_title['release_year']
+        result[0].rating = dict_title['rating']
+        result[0].duration = dict_title['duration']
+        result[0].listed_in = dict_title['listed_in']
+        result[0].description = dict_title['description']
+        result[0].save()
+    
+    @classmethod
+    def get_all_titles(cls):
         result = []
-        for r in cls.query.all():
-            result.append(r.get_dict())
+        for title in cls.query.all():
+            result.append(title.get_json())
         return result
 
-
-class Category(db.Model):
-    __tablename__='category'
-    category_code = db.Column(db.String(15),primary_key=True)
-    category_name = db.Column(db.String(50),nullable=False, unique=True)
-    # end point ect 
-
-    def __init__(self, category_name, category_code):
-        self.category_name = category_name
-        self.category_code = category_code
-
-    def save_category(self):
-        db.session.add(self)
-        db.session.commit()
-
-    def delete_category(self):
-        db.session.delete(self)
-        db.session.commit()
-
-    def get_dict(self):
-        return {'Category Code': self.category_code ,'Category Name': self.category_name}
-
     @classmethod
-    def create_category(cls, dict_category):
-        new_category = Category(**dict_category)
-        new_category.save_category()
-
-    @classmethod
-    def get_categories(cls):
+    def get_by_type(cls, type):
         result = []
-        for r in cls.query.all():
-            result.append(r.get_dict()) 
-        return result 
-
-class Vendor(db.Model):
-    __tablename__='vendor'
-    vendor_code = db.Column(db.String(15), primary_key=True)
-    vendor_name = db.Column(db.String(50), nullable=False, unique=True)
-
-    def __init__(self, vendor_name, vendor_code):
-        self.vendor_name = vendor_name
-        self.vendor_code = vendor_code
-
-    def save_vendor(self):
-        db.session.add(self)
-        db.session.commit()
-
-    def delete_vendor(self):
-        db.session.delete(self)
-        db.session.commit()
-
-    def get_dict(self):
-        return {'Vendor Name': self.vendor_name, 'Vendor Code':self.vendor_code}
+        for title in cls.query.filter_by(type=type):
+            result.append(title.get_json())
+        return result
     
     @classmethod
-    def create_vendor(cls, dict_vendor):
-        new_vendor = Vendor(**dict_vendor)
-        new_vendor.save_vendor()
+    def get_by_title(cls, title):
+        result = []
+        for title in cls.query.filter_by(title=title):
+            result.append(title.get_json())
+        return result
+
+    @classmethod
+    def get_by_director(cls, director):
+        result = []
+        for title in cls.query.filter_by(director=director):
+            result.append(title.get_json())
+        return result
     
     @classmethod
-    def get_vendors(cls):
+    def get_by_cast(cls, cast):
         result = []
-        for r in cls.query.all():
-            result.append(r.get_dict()) 
-        return result 
+        for title in cls.query.filter_by(cast=cast):
+            result.append(title.get_json())
+        return result
 
-                           
+    @classmethod
+    def get_by_country(cls, country):
+        result = []
+        for title in cls.query.filter_by(country=country):
+            result.append(title.get_json())
+        return result
+
+    @classmethod
+    def get_by_date_added(cls, date_added):
+        result = []
+        for title in cls.query.filter_by(date_added=date_added):
+            result.append(title.get_json())
+        return result
+
+    @classmethod
+    def get_by_release_year(cls, release_year):
+        result = []
+        for title in cls.query.filter_by(release_year=release_year):
+            result.append(title.get_json())
+        return result
+
+    @classmethod
+    def get_by_rating(cls, rating):
+        result = []
+        for title in cls.query.filter_by(rating=rating):
+            result.append(title.get_json())
+        return result
+
+    @classmethod
+    def get_by_duration(cls, duration):
+        result = []
+        for title in cls.query.filter_by(duration=duration):
+            result.append(title.get_json())
+        return result
+
+    @classmethod
+    def get_by_listed_in(cls, listed_in):
+        result = []
+        for title in cls.query.filter_by(listed_in=listed_in):
+            result.append(title.get_json())
+        return result
+
+    @classmethod
+    def get_by_description(cls, description):
+        result = []
+        for title in cls.query.filter_by(description=description):
+            result.append(title.get_json())
+        return result
+
+    
+
+    
+
+
