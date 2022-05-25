@@ -143,6 +143,7 @@ class UpdateNetflixTitles(Resource):
 class CreateNetflixTitles(Resource):
 
     parser = api.parser()
+    parser.add_argument("show_id", type=str, help="show_id is required", required=True)
     parser.add_argument("type", type=str, help="title type", required=False)
     parser.add_argument("title", type=str, help="title of the title", required=True)
     parser.add_argument("director", type=str, help="director of the title", required=False)
