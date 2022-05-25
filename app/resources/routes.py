@@ -128,6 +128,7 @@ class UpdateNetflixTitles(Resource):
     parser.add_argument("duration", type=str, help="type is required", required=True)
     parser.add_argument("listed_in", type=str, help="type is required", required=True)
     parser.add_argument("description", type=str, help="type is required", required=True)
+    parser.add_argument("cast", type=str, help="cast/actors of the title title", required=False)
 
     @api.expect(parser)
     def put(self):
@@ -152,6 +153,7 @@ class CreateNetflixTitles(Resource):
     parser.add_argument("duration", type=str, help="duration of the title", required=False)
     parser.add_argument("listed_in", type=str, help="listed in of the title", required=False)
     parser.add_argument("description", type=str, help="description of the title", required=False)
+    parser.add_argument("cast", type=str, help="cast/actors of the title title", required=False)
 
     @api.expect(parser)
     def post(self):
