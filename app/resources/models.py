@@ -1,5 +1,6 @@
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import exc
+from sqlalchemy.sql import text
 # from sqlalchemy.orm import relationship, backref
 import json
 
@@ -99,7 +100,7 @@ class NetflixTitle(db.Model):
     @classmethod
     def get_all_titles(cls):
         result = []
-        for title in cls.query.all():
+        for title in cls.query.order_by(text("show_id desc")).all():
             result.append(title.get_json())
         return result
 
