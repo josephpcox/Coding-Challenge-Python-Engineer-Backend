@@ -94,7 +94,7 @@ class NetflixTitle(db.Model):
         result[0].duration = dict_title['duration']
         result[0].listed_in = dict_title['listed_in']
         result[0].description = dict_title['description']
-        result[0].save()
+        result[0].save_title()
     
     @classmethod
     def get_all_titles(cls):
