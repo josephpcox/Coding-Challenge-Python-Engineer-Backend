@@ -53,7 +53,7 @@ class NetflixTitle(db.Model):
         db.session.add(self)
         db.session.commit()
 
-    def delete_title(self):
+    def remove_title(self):
         db.session.delete(self)
         db.session.commit()
     
@@ -82,7 +82,7 @@ class NetflixTitle(db.Model):
     @classmethod
     def delete_title(cls, id):
         netflix_title = cls.query.filter_by(id=id)
-        netflix_title.delete_title()
+        netflix_title.remove_title()
 
     @classmethod
     def update_title(cls, dict_title):
