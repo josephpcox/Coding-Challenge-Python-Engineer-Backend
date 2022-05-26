@@ -9,7 +9,7 @@ db = SQLAlchemy()
                       
 class NetflixTitle(db.Model):
     __tablename__ = 'netflix_titles'
-    show_id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
     show_id = db.Column(db.String(30))
     type = db.Column(db.String)
     title = db.Column(db.String)
