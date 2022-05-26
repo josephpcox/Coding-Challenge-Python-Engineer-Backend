@@ -166,7 +166,7 @@ class CreateNetflixTitles(Resource):
         except Exception as e:
             return {"msg":str(e)}
 
-@api.route('/api/netflix_titles/delete_title/<string:id>')
+@api.route('/api/netflix_titles/delete_title/<int:id>')
 class DeleteNetflixTitlesByDescription(Resource):
     def delete(self, id):
         try:
