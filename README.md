@@ -17,4 +17,5 @@ CREATE TABLE netflix_titles(
    listed_in      TEXT,
    description    TEXT
 );
+ALTER TABLE netflix_titles ADD COLUMN id SERIAL PRIMARY KEY;
 ```

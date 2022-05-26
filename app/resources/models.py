@@ -9,7 +9,8 @@ db = SQLAlchemy()
                       
 class NetflixTitle(db.Model):
     __tablename__ = 'netflix_titles'
-    show_id = db.Column(db.String(30), primary_key=True)
+    show_id = db.Column(db.Int(30), primary_key=True)
+    show_id = db.Column(db.String(30))
     type = db.Column(db.String)
     title = db.Column(db.String)
     director = db.Column(db.String)
@@ -57,7 +58,9 @@ class NetflixTitle(db.Model):
         db.session.commit()
     
     def get_json(self):
-        return {"show_id": self.show_id,
+        return {
+        "id": self.id,
+        "show_id": self.show_id,
         "type": self.type,
         "title": self.title,
         "director": self.director,
@@ -78,12 +81,13 @@ class NetflixTitle(db.Model):
     
     @classmethod
     def delete_title(cls, show_id):
-        netflix_title = cls.query.filter_by(show_id=show_id)
+        netflix_title = cls.query.filter_by(id=id)
         netflix_title.delete_title()
 
     @classmethod
     def update_title(cls, dict_title):
-        result = cls.query.filter_by(show_id = dict_title['show_id'])
+        result = cls.query.filter_by(id = dict_title['id'])
+        result[0].show_id = dict_title['show_id']
         result[0].type = dict_title['type']
         result[0].title = dict_title['title']
         result[0].director = dict_title['director']
@@ -100,7 +104,7 @@ class NetflixTitle(db.Model):
     @classmethod
     def get_all_titles(cls):
         result = []
-        for title in cls.query.order_by(text("show_id asc")).all():
+        for title in cls.query.order_by(text("id asc")).all():
             result.append(title.get_json())
         return result
 
