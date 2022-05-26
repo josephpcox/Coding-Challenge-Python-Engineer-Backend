@@ -143,7 +143,7 @@ class UpdateNetflixTitles(Resource):
 class CreateNetflixTitles(Resource):
 
     parser = api.parser()
-    parser.add_argument("show_id", type=str, help="show_id is required", required=True)
+    parser.add_argument("show_id", type=str, help="show id", required=False)
     parser.add_argument("type", type=str, help="title type", required=False)
     parser.add_argument("title", type=str, help="title of the title", required=True)
     parser.add_argument("director", type=str, help="director of the title", required=False)
@@ -165,11 +165,11 @@ class CreateNetflixTitles(Resource):
         except Exception as e:
             return {"msg":str(e)}
 
-@api.route('/api/netflix_titles/delete_title/<string:show_id>')
+@api.route('/api/netflix_titles/delete_title/<string:id>')
 class DeleteNetflixTitlesByDescription(Resource):
-    def delete(self, show_id):
+    def delete(self, id):
         try:
-            NetflixTitle.delete_title(show_id=show_id)
+            NetflixTitle.delete_title(id=id)
             return 200
         except Exception as e:
             return {"msg":str(e)}
