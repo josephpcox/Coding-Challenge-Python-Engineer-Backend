@@ -15,7 +15,7 @@ class GetAllNetflixTitles(Resource):
             result = NetflixTitle.get_all_titles()
             return result
         except Exception as e:
-            return {"msg": str(e)} 
+            return {"msg": str(e)}
 
 @api.route('/api/netflix_titles/get_by_title_name/<string:title_name>')
 class GetNetflixTitles(Resource):
@@ -25,6 +25,7 @@ class GetNetflixTitles(Resource):
             return result
         except Exception as e:
             return {"msg":str(e)}
+
 @api.route('/api/netflix_titles/get_by_type/<string:type>')
 class GetNetflixTitlesByType(Resource):
     def get(self, type):
@@ -51,6 +52,7 @@ class GetNetflixTitlesByCast(Resource):
             return result
         except Exception as e:
             return {"msg":str(e)}
+
 @api.route('/api/netflix_titles/get_by_country/<string:country>')
 class GetNetflixTitlesByCountry(Resource):
     def get(self, country):
@@ -59,6 +61,7 @@ class GetNetflixTitlesByCountry(Resource):
             return result
         except Exception as e:
             return {"msg":str(e)}
+
 @api.route('/api/netflix_titles/get_by_date_added/<string:date>')
 class GetNetflixTitlesByDateAdded(Resource):
     def get(self, date):
