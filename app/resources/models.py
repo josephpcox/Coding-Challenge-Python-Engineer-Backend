@@ -80,7 +80,7 @@ class NetflixTitle(db.Model):
         netflix_title.save_title()
     
     @classmethod
-    def delete_title(cls, show_id):
+    def delete_title(cls, id):
         netflix_title = cls.query.filter_by(id=id)
         netflix_title.delete_title()
 
@@ -104,7 +104,7 @@ class NetflixTitle(db.Model):
     @classmethod
     def get_all_titles(cls):
         result = []
-        for title in cls.query.order_by(text("id asc")).all():
+        for title in cls.query.all():
             result.append(title.get_json())
         return result
 
