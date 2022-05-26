@@ -104,7 +104,7 @@ class NetflixTitle(db.Model):
     @classmethod
     def get_all_titles(cls):
         result = []
-        for title in cls.query.all():
+        for title in cls.query.text("show_id asc").all():
             result.append(title.get_json())
         return result
 
