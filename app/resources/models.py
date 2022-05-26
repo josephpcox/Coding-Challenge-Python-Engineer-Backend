@@ -82,7 +82,7 @@ class NetflixTitle(db.Model):
     @classmethod
     def delete_title(cls, id):
         netflix_title = cls.query.filter_by(id=id)
-        netflix_title.remove_title()
+        netflix_title[0].remove_title()
 
     @classmethod
     def update_title(cls, dict_title):
