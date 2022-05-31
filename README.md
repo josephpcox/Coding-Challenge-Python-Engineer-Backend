@@ -19,3 +19,4 @@ CREATE TABLE netflix_titles(
 );
 ALTER TABLE netflix_titles ADD COLUMN id SERIAL PRIMARY KEY;
 ```
+just a quick change
